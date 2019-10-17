@@ -5,9 +5,9 @@ import styles from './Counter.module.css';
 const Counter = ({ lastPage, currentPage }) => {
   return (
     <div className={styles.counter}>
-      <p>{currentPage}</p>
-      <p>/</p>
-      <p>{lastPage}</p>
+      <p>
+        {currentPage}/{lastPage}
+      </p>
     </div>
   );
 };

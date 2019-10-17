@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import Controls from '../Controls/Controls';
 import Counter from '../Counter/Counter';
 import Publication from '../Publication/Publication';
-import publications from '../Publication/publications.json';
+// import publications from '../Publication/publications.json';
 import styles from './Reader.module.css';
 
 export default class Reader extends Component {
   static propTypes = {
-    step: PropTypes.number,
     pageNumber: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   };
 
   static defaultProps = {
-    step: 1,
     pageNumber: 1,
   };
 
@@ -26,7 +25,7 @@ export default class Reader extends Component {
     //   return;
     // }
     this.setState(prevState => ({
-      pageNumber: prevState.pageNumber + this.props.step,
+      pageNumber: prevState.pageNumber + 1,
     }));
   };
 
@@ -35,22 +34,26 @@ export default class Reader extends Component {
     //   return;
     // }
     this.setState(prevState => ({
-      pageNumber: prevState.pageNumber - this.props.step,
+      pageNumber: prevState.pageNumber - 1,
     }));
   };
 
   render() {
     const { pageNumber } = this.state;
+    const { items } = this.props;
     return (
       <div className={styles.reader}>
         <Controls
           onIncrement={this.handleIncrement}
           onDecrement={this.handleDecrement}
           currentPage={pageNumber}
-          lastPage={publications.length}
+          lastPage={items.length}
         />
-        <Counter lastPage={publications.length} currentPage={pageNumber} />
-        <Publication currentPublication={publications[pageNumber - 1]} />
+        <Counter lastPage={items.length} currentPage={pageNumber} />
+        <Publication
+          currentPublication={items[pageNumber - 1]}
+          currentPage={pageNumber}
+        />
       </div>
     );
   }
